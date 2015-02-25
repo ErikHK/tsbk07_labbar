@@ -1,0 +1,13 @@
+
+all : lab1-1, lab1-2
+
+lab1-1: lab1-1.c GL_utilities.c 
+	gcc -Wall -DGL_GLEXT_PROTOTYPES lab1-1.c GL_utilities.c MicroGlut.c -std=c99 -lGL -lglut -lX11 -lm -o lab1-1
+
+lab1-2: lab1-2.c GL_utilities.c 
+	gcc -Wall -DGL_GLEXT_PROTOTYPES lab1-2.c GL_utilities.c MicroGlut.c -std=c99 -lGL -lglut -lX11 -lm -o lab1-2
+
+clean :
+	rm lab1-1
+	rm lab1-2
+
