@@ -9,4 +9,3 @@ The triangle color is controlled from the fragment shader. Would it be possible 
 What is the purpose of the "in", "out" and "uniform" modifiers?
 What is the output of the vertex shader?
 What does the function glUniformMatrix4fv do?
-

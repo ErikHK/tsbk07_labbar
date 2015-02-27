@@ -14,7 +14,23 @@
 #endif
 #include "GL_utilities.h"
 #include "loadobj.h"
+#include "LoadTGA.h"
+#include "VectorUtils3.h"
 #include <math.h>
+
+
+
+#define near 1.0
+#define far 4.0
+#define right 0.6
+#define left -0.6
+#define top 0.6
+#define bottom -0.6
+GLfloat projectionMatrix[] = {    2.0f*near/(right-left), 0.0f, (right+left)/(right-left), 0.0f,
+                                            0.0f, 2.0f*near/(top-bottom), (top+bottom)/(top-bottom), 0.0f,
+                                            0.0f, 0.0f, -(far + near)/(far - near), -2*far*near/(far - near),
+                                            0.0f, 0.0f, -1.0f, 0.0f };
+
 
 // Globals
 // Data would normally be read from files
@@ -165,6 +181,7 @@ unsigned int bunnyVertexArrayObjID;
 unsigned int bunnyVertexBufferObjID;
 unsigned int bunnyIndexBufferObjID;
 unsigned int bunnyNormalBufferObjID;
+unsigned int bunnyTexCoordBufferObjID;
 Model *m;
 
 // Reference to shader program
@@ -194,11 +211,27 @@ void OnTimer(int value)
 
 void init(void)
 {
-	m = LoadModel("bunny.obj");
+
+	mat4 rot, trans, total;
+
+
+	trans = T(-0.0,0,-3);
+
+	rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
+
+	total = Mult(trans, rot);
+
+
+	m = LoadModel("bunnyplus.obj");
 
 	// vertex buffer object, used for uploading the geometry
 	unsigned int vertexBufferObjID;
 	unsigned int vbo_colors;
+	unsigned int myTex;
+
+
+	//load texture
+	LoadTGATextureSimple("maskros512.tga", &myTex);
 
 	//init timer
 	glutTimerFunc(20, &OnTimer, 0);
@@ -212,7 +245,7 @@ void init(void)
 	printError("GL inits");
 
 	// Load and compile shader
-	program = loadShaders("lab1-6.vert", "lab1-6.frag");
+	program = loadShaders("lab2-3.vert", "lab2-3.frag");
 	printError("init shader");
 	
 	// Upload geometry to the GPU:
@@ -225,6 +258,21 @@ void init(void)
 	glGenBuffers(1, &bunnyIndexBufferObjID);
 	glGenBuffers(1, &bunnyNormalBufferObjID);
 	glGenBuffers(1, &vbo_colors);
+
+	glBindTexture(GL_TEXTURE_2D, myTex);
+	glUniform1i(glGetUniformLocation(program, "texUnit"), 0); // Texture unit 0
+
+	glGenBuffers(1, &bunnyTexCoordBufferObjID);  
+
+	if (m->texCoordArray != NULL)
+	{
+	glBindBuffer(GL_ARRAY_BUFFER, bunnyTexCoordBufferObjID);
+	glBufferData(GL_ARRAY_BUFFER, m->numVertices*2*sizeof(GLfloat), m->texCoordArray, GL_STATIC_DRAW);
+	glVertexAttribPointer(glGetAttribLocation(program, "inTexCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(glGetAttribLocation(program, "inTexCoord"));
+	}
+
+
 	
 	// VBO for vertex data
 	glBindBuffer(GL_ARRAY_BUFFER, bunnyVertexBufferObjID);
@@ -251,8 +299,10 @@ void init(void)
 	
 	printError("init arrays");
 
-	//upload matrix
+	//upload matrices
 	glUniformMatrix4fv(glGetUniformLocation(program, "myMatrix"), 1, GL_TRUE, myMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"), 1, GL_TRUE, projectionMatrix);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, total.m);
 
 }
 
