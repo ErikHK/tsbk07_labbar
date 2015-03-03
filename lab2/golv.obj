@@ -1,0 +1,11 @@
+# Blender v2.73 (sub 0) OBJ File: ''
+# www.blender.org
+mtllib golv.mtl
+o Plane
+v -10.000000 0.000000 10.000000
+v 10.000000 0.000000 10.000000
+v -10.000000 0.000000 -10.000000
+v 10.000000 0.000000 -10.000000
+usemtl None
+s off
+f 1 2 4 3
