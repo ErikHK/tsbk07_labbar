@@ -21,7 +21,7 @@
 
 
 #define near 1.0
-#define far 400.0
+#define far 40.0
 #define right 1.0
 #define left -1.0
 #define top 1.0
@@ -141,14 +141,16 @@ unsigned int bunnyIndexBufferObjID;
 unsigned int bunnyNormalBufferObjID;
 unsigned int bunnyTexCoordBufferObjID;
 */
-Model *m, *m2, *golv;
-
+Model *m, *m2, *m3, *m4;
+Model * blades[4];
 // Reference to shader program
 GLuint program;
 
 // vertex array object
 unsigned int vertexArrayObjID;
-mat4 rot, trans1, trans2, trans1_2, trans2_2, trans0, trans0_2, look, total;
+mat4 rot, rot2, trans1, trans2, trans1_2, trans2_2, trans3, trans3_2, trans4, trans4_2, trans0, trans0_2, look, total;
+mat4 trans_blades[4];
+mat4 trans_blades_2[4];
 mat4 * curr_trans;
 
 void OnTimer(int value)
@@ -168,15 +170,25 @@ void OnTimer(int value)
     glutTimerFunc(20, &OnTimer, value);
 
 
-    static float a = 0;
-    a += 0.03;
+    static float a = 0, a2 = 0;
+    //a += 0.03;
+    a2 += 0.03;
     rot = Ry(a);
+    rot2 = Rx(a2);
     //curr_trans_tot = &trans1;
-    //*curr_trans = Mult(rot, *curr_trans);
+    // *curr_trans = Mult(rot, *curr_trans);
     //total = Mult(rot, look);
     trans1_2 = Mult(rot, trans1);
     trans2_2 = Mult(rot, trans2);
+    trans3_2 = Mult(rot, trans3);
+    trans4_2 = Mult(rot, trans4);
     trans0_2 = rot;
+
+
+    for(int i=0;i<4;i++)
+    {
+        trans_blades_2[i] = Mult(T(4.7,9,3), Mult(rot2, trans_blades[i]));
+    }
 
 }
 
@@ -188,21 +200,34 @@ void init(void)
 
 	trans1 = T(0,0,3);
 	trans1_2 = T(0,0,3);
-	trans2 = T(0,0,-3);
-	trans2_2 = T(0,0,-3);
+	trans2 = T(0,0,3);
+	trans2_2 = T(0,0,3);
+	trans3 = T(0,0,3);
+	trans4 = T(5,6,3);
 	trans0 = T(0,0,0);
 
+	trans_blades[0] = T(0,0,0);
+	trans_blades[1] = Mult(Rx(M_PI/2), T(0,0,0));
+	trans_blades[2] = Mult(Rx(M_PI), T(0,0,0));
+	trans_blades[3] = Mult(Rx(3*M_PI/2), T(0,0,0));
 	//rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
 
 	//rot = Ry(M_PI/4);
 
 	//total = Mult(trans, rot);
 
-	look = lookAt(0,3,5,  0,0,0,  0,1,0);
+	look = lookAt(20,13,20,  0,0,0,  0,1,0);
 
-	m = LoadModelPlus("bunnyplus.obj");
-	m2 = LoadModelPlus("models/various/cow.obj");
-	golv = LoadModelPlus("golv.obj");
+	m = LoadModelPlus("windmill/windmill-balcony.obj");
+	m2 = LoadModelPlus("windmill/windmill-walls.obj");
+	m3 = LoadModelPlus("windmill/windmill-roof.obj");
+	m4 = LoadModelPlus("windmill/blade.obj");
+
+
+	blades[0] = LoadModelPlus("windmill/blade.obj");
+	blades[1] = LoadModelPlus("windmill/blade.obj");
+	blades[2] = LoadModelPlus("windmill/blade.obj");
+	blades[3] = LoadModelPlus("windmill/blade.obj");
 
 	// vertex buffer object, used for uploading the geometry
 	unsigned int vertexBufferObjID;
@@ -255,6 +280,8 @@ void display(void)
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans1_2.m);
 	glUniformMatrix4fv(glGetUniformLocation(program, "camMatrix"), 1, GL_TRUE, look.m);
 
+	
+
 	DrawModel(m, program, "in_Position", "in_Normal", "inTexCoord");
 	//curr_trans = &trans2;
 
@@ -262,9 +289,18 @@ void display(void)
 
 	DrawModel(m2, program, "in_Position", "in_Normal", "inTexCoord");
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans0_2.m);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans3_2.m);
 
-	DrawModel(golv, program, "in_Position", "in_Normal", "inTexCoord");
+	DrawModel(m3, program, "in_Position", "in_Normal", "inTexCoord");
+
+	
+
+	for(int i=0;i<4;i++)
+	{
+		glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans_blades_2[i].m);
+
+		DrawModel(blades[i], program, "in_Position", "in_Normal", "inTexCoord");
+	}
 
 
 	printError("display");
@@ -276,6 +312,7 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
+	glutInitWindowSize(800, 600);
 	glutCreateWindow ("GL3 white triangle example");
 	glutDisplayFunc(display); 
 	init ();
