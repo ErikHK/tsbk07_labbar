@@ -48,7 +48,7 @@ GLuint program;
 
 // vertex array object
 unsigned int vertexArrayObjID;
-mat4 rot, rot2, trans1, trans2, trans1_2, trans2_2, trans3, trans3_2, trans4, trans4_2, trans0, trans0_2, look, total;
+mat4 rot, mill, look, total, balcony_trans, walls_trans, roof_trans;
 mat4 blades_rot[4];
 mat4 blades_anim[4];
 mat4 * curr_trans;
@@ -70,24 +70,12 @@ void OnTimer(int value)
     glutTimerFunc(20, &OnTimer, value);
 
 
-    static float a = 0, a2 = 0;
-    //a += 0.03;
-    a2 += 0.03;
-    rot = Ry(a);
-    rot2 = Rx(a2);
-    //curr_trans_tot = &trans1;
-    // *curr_trans = Mult(rot, *curr_trans);
-    //total = Mult(rot, look);
-    trans1_2 = Mult(rot, trans1);
-    trans2_2 = Mult(rot, trans2);
-    trans3_2 = Mult(rot, trans3);
-    trans4_2 = Mult(rot, trans4);
-    trans0_2 = rot;
-
-
-    for(int i=0;i<4;i++)
+    static float a = 0;
+    a += 0.03;
+    rot = Rx(a);
+	for(int i=0;i<4;i++)
     {
-        blades_anim[i] = Mult(T(4.7,9,3), Mult(rot2, blades_rot[i]));
+        blades_anim[i] = Mult(T(4.7,9,3), Mult(rot, blades_rot[i]));
     }
 
 }
@@ -95,27 +83,16 @@ void OnTimer(int value)
 
 void init(void)
 {
-
-
-
-	trans1 = T(0,0,3);
-	trans1_2 = T(0,0,3);
-	trans2 = T(0,0,3);
-	trans2_2 = T(0,0,3);
-	trans3 = T(0,0,3);
-	trans4 = T(5,6,3);
-	trans0 = T(0,0,0);
+	mill = T(0,0,3);
+	balcony_trans = T(0,0,3);
+	walls_trans = T(0,0,3);
+	roof_trans = T(0,0,3);
 
 	blades_rot[0] = T(0,0,0);
 	blades_rot[1] = Mult(Rx(M_PI/2), T(0,0,0));
 	blades_rot[2] = Mult(Rx(M_PI), T(0,0,0));
 	blades_rot[3] = Mult(Rx(3*M_PI/2), T(0,0,0));
-	//rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
-
-	//rot = Ry(M_PI/4);
-
-	//total = Mult(trans, rot);
-
+	
 	look = lookAt(20,13,20,  0,0,0,  0,1,0);
 
 	balcony = LoadModelPlus("windmill/windmill-balcony.obj");
@@ -130,10 +107,10 @@ void init(void)
 	// vertex buffer object, used for uploading the geometry
 	unsigned int vertexBufferObjID;
 	unsigned int vbo_colors;
-	unsigned int myTex;
+	//unsigned int myTex;
 
 	//load texture
-	LoadTGATextureSimple("maskros512.tga", &myTex);
+	//LoadTGATextureSimple("maskros512.tga", &myTex);
 
 	//init timer
 	glutTimerFunc(20, &OnTimer, 0);
@@ -141,7 +118,7 @@ void init(void)
 	dumpInfo();
 
 	// GL inits
-	glClearColor(0.2,0.2,0.5,0);
+	glClearColor(1,1,1,0);
 	glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE|GLUT_DEPTH);
 	glEnable(GL_DEPTH_TEST);
 	printError("GL inits");
@@ -153,14 +130,8 @@ void init(void)
 	//upload matrices
 	glUniformMatrix4fv(glGetUniformLocation(program, "myMatrix"), 1, GL_TRUE, myMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"), 1, GL_TRUE, projectionMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans1_2.m);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, mill.m);
 	glUniformMatrix4fv(glGetUniformLocation(program, "camMatrix"), 1, GL_TRUE, look.m);
-
-	//curr_trans = &trans1;
-	//rot = Ry(M_PI/4);
-	//*curr_trans = Mult(rot, trans1);
-	//*curr_trans_tot = Mult(rot, *curr_trans);
-
 
 }
 
@@ -172,23 +143,15 @@ void display(void)
 	// clear the screen
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-	//curr_trans = &trans1;
-
 	glUniformMatrix4fv(glGetUniformLocation(program, "myMatrix"), 1, GL_TRUE, myMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans1_2.m);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, balcony_trans.m);
 	glUniformMatrix4fv(glGetUniformLocation(program, "camMatrix"), 1, GL_TRUE, look.m);
-
-	
-
 	DrawModel(balcony, program, "in_Position", "in_Normal", "inTexCoord");
-	//curr_trans = &trans2;
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans2_2.m);
-
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, walls_trans.m);
 	DrawModel(walls, program, "in_Position", "in_Normal", "inTexCoord");
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans3_2.m);
-
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, roof_trans.m);
 	DrawModel(roof, program, "in_Position", "in_Normal", "inTexCoord");
 
 	
