@@ -1,4 +1,4 @@
-// Lab 1-1.
+// Lab 2-7.
 // This is the same as the first simple example in the course book,
 // but with a few error checks.
 // Remember to copy your file to a new on appropriate places during the lab so you keep old results.
@@ -84,20 +84,11 @@ void OnTimer(int value)
 
 void init(void)
 {
-
-
-
 	trans1 = T(0,0,3);
 	trans1_2 = T(0,0,3);
 	trans2 = T(0,0,-3);
 	trans2_2 = T(0,0,-3);
 	trans0 = T(0,0,0);
-
-	//rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
-
-	//rot = Ry(M_PI/4);
-
-	//total = Mult(trans, rot);
 
 	look = lookAt(0,3,5,  0,0,0,  0,1,0);
 
@@ -134,12 +125,6 @@ void init(void)
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans1_2.m);
 	glUniformMatrix4fv(glGetUniformLocation(program, "camMatrix"), 1, GL_TRUE, look.m);
 
-	//curr_trans = &trans1;
-	//rot = Ry(M_PI/4);
-	//*curr_trans = Mult(rot, trans1);
-	//*curr_trans_tot = Mult(rot, *curr_trans);
-
-
 }
 
 
@@ -150,23 +135,14 @@ void display(void)
 	// clear the screen
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-	//curr_trans = &trans1;
-
 	glUniformMatrix4fv(glGetUniformLocation(program, "myMatrix"), 1, GL_TRUE, myMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans1_2.m);
 	glUniformMatrix4fv(glGetUniformLocation(program, "camMatrix"), 1, GL_TRUE, look.m);
 
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans1_2.m);
 	DrawModel(m, program, "in_Position", "in_Normal", "inTexCoord");
-	//curr_trans = &trans2;
 
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans2_2.m);
-
 	DrawModel(m2, program, "in_Position", "in_Normal", "inTexCoord");
-
-	//glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans0_2.m);
-
-	//DrawModel(golv, program, "in_Position", "in_Normal", "inTexCoord");
-
 
 	printError("display");
 	
@@ -177,7 +153,7 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
-	glutCreateWindow ("GL3 white triangle example");
+	glutCreateWindow ("Labb 2-7");
 	glutDisplayFunc(display); 
 	init ();
 	glutTimerFunc(20, &OnTimer, 0);

@@ -1,8 +1,5 @@
 #version 130
 
-//in vec3 position;
-//in vec4 color;
-
 in  vec3 in_Position;
 in vec2 inTexCoord;
 in vec3 myColor;

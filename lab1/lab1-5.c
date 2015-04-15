@@ -1,4 +1,4 @@
-// Lab 1-1.
+// Lab 1-5.
 // This is the same as the first simple example in the course book,
 // but with a few error checks.
 // Remember to copy your file to a new on appropriate places during the lab so you keep old results.
@@ -179,12 +179,11 @@ void init(void)
 	glVertexAttribPointer(glGetAttribLocation(program, "in_Position"), 3, GL_FLOAT, GL_FALSE, 0, 0); 
 	glEnableVertexAttribArray(glGetAttribLocation(program, "in_Position"));
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(myColor), myColor, GL_STATIC_DRAW);
-        glVertexAttribPointer(glGetAttribLocation(program, "myColor"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(glGetAttribLocation(program, "myColor"));
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(myColor), myColor, GL_STATIC_DRAW);
+    glVertexAttribPointer(glGetAttribLocation(program, "myColor"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(glGetAttribLocation(program, "myColor"));
 
-	
 	// End of upload of geometry
 	
 	printError("init arrays");
@@ -215,7 +214,7 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
-	glutCreateWindow ("GL3 white triangle example");
+	glutCreateWindow ("Labb 1-5");
 	glutDisplayFunc(display); 
 	init ();
 	glutTimerFunc(20, &OnTimer, 0);

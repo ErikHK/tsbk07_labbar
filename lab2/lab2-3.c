@@ -1,4 +1,4 @@
-// Lab 1-1.
+// Lab 2-3.
 // This is the same as the first simple example in the course book,
 // but with a few error checks.
 // Remember to copy your file to a new on appropriate places during the lab so you keep old results.
@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
-	glutCreateWindow ("GL3 white triangle example");
+	glutCreateWindow ("Labb 2-3");
 	glutDisplayFunc(display); 
 	init ();
 	glutTimerFunc(20, &OnTimer, 0);

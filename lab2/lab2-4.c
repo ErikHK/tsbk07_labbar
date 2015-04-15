@@ -82,10 +82,6 @@ void init(void)
 
 	mdlMatrix = T(0,0,0);
 
-	//rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
-
-	//total = Mult(trans, rot);
-
 	total = lookAt(0,0,3,  0,0,0,  0,1,0);
 
 
@@ -93,7 +89,6 @@ void init(void)
 
 	// vertex buffer object, used for uploading the geometry
 	unsigned int myTex;
-
 
 	//load texture
 	LoadTGATextureSimple("maskros512.tga", &myTex);
@@ -130,10 +125,10 @@ void init(void)
 
 	if (m->texCoordArray != NULL)
 	{
-	glBindBuffer(GL_ARRAY_BUFFER, bunnyTexCoordBufferObjID);
-	glBufferData(GL_ARRAY_BUFFER, m->numVertices*2*sizeof(GLfloat), m->texCoordArray, GL_STATIC_DRAW);
-	glVertexAttribPointer(glGetAttribLocation(program, "inTexCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(glGetAttribLocation(program, "inTexCoord"));
+		glBindBuffer(GL_ARRAY_BUFFER, bunnyTexCoordBufferObjID);
+		glBufferData(GL_ARRAY_BUFFER, m->numVertices*2*sizeof(GLfloat), m->texCoordArray, GL_STATIC_DRAW);
+		glVertexAttribPointer(glGetAttribLocation(program, "inTexCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(program, "inTexCoord"));
 	}
 
 
@@ -186,7 +181,7 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
-	glutCreateWindow ("GL3 white triangle example");
+	glutCreateWindow ("Labb 2-4");
 	glutDisplayFunc(display); 
 	init ();
 	glutTimerFunc(20, &OnTimer, 0);

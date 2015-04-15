@@ -1,8 +1,6 @@
 #version 130
 
-//varying vec4 position;
 in vec2 texCoordV;
-//in vec4 color;
 in vec3 in_Position;
 out vec4 out_Color;
 uniform mat4 myMatrix;

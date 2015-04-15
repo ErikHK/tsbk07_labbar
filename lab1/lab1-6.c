@@ -1,4 +1,4 @@
-// Lab 1-1.
+// Lab 1-6.
 // This is the same as the first simple example in the course book,
 // but with a few error checks.
 // Remember to copy your file to a new on appropriate places during the lab so you keep old results.
@@ -18,19 +18,6 @@
 
 // Globals
 // Data would normally be read from files
-/*
-GLfloat vertices[] =
-{
-	-0.5f,-0.5f,-0.5f,
-	-0.5f,-0.5f,0.5f,
-	-0.5f,0.5f,-0.5f,
-	-0.5,0.5f,0.5f,
-	0.5f,-0.5f,-0.5f,
-	0.5f,-0.5f,0.5f,
-	0.5f,0.5f,-0.5f,
-	0.5f,0.5f,0.5f
-};
-*/
 
 GLfloat vertices[] =
 {
@@ -73,50 +60,6 @@ GLfloat vertices[] =
 
 
 };
-
-
-/*
-GLfloat vertices[] =
-{
-    -0.5f,-0.5f,-0.5f, // triangle 1 : begin
-    -0.5f,-0.5f, 0.5f,
-    -0.5f, 0.5f, 0.5f, // triangle 1 : end
-    0.5f, 0.5f,-0.5f, // triangle 2 : begin
-    -0.5f,-0.5f,-0.5f,
-    -0.5f, 0.5f,-0.5f, // triangle 2 : end
-    0.5f,-0.5f, 0.5f, //tri 3 begin
-    -0.5f,-0.5f,-0.5f,
-    0.5f,-0.5f,-0.5f //tri 3 end
-    0.5f, 0.5f,-0.5f, //tri 4 begin
-    0.5f,-0.5f,-0.5f,
-    -0.5f,-0.5f,-0.5f, //tri 4 end
-    -0.5f,-0.5f,-0.5f,
-    -0.5f, 0.5f, 0.5f,
-    -0.5f, 0.5f,-0.5f,
-    0.5f,-0.5f, 0.5f,
-    -0.5f,-0.5f, 0.5f,
-    -0.5f,-0.5f,-0.5f,
-    -0.5f, 0.5f, 0.5f,
-    -0.5f,-0.5f, 0.5f,
-    0.5f,-1.0f, 1.0f,
-    0.5f, 0.5f, 0.5f,
-    0.5f,-0.5f,-0.5f,
-    0.5f, 0.5f,-0.5f,
-    0.5f,-0.5f,-0.5f,
-    0.5f, 0.5f, 0.5f,
-    0.5f,-0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f,-0.5f,
-    -0.5f, 0.5f,-0.5f,
-    0.5f, 0.5f, 0.5f,
-    -0.5f, 0.5f,-0.5f,
-    -0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    -0.5f, 0.5f, 0.5f,
-    0.5f,-0.5f, 0.5f
-
-};
-*/
 
 GLfloat myMatrix[] = {1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
@@ -238,14 +181,13 @@ void init(void)
 	glVertexAttribPointer(glGetAttribLocation(program, "in_Normal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(glGetAttribLocation(program, "in_Normal"));
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(myColor), myColor, GL_STATIC_DRAW);
-        glVertexAttribPointer(glGetAttribLocation(program, "myColor"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(glGetAttribLocation(program, "myColor"));
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(myColor), myColor, GL_STATIC_DRAW);
+    glVertexAttribPointer(glGetAttribLocation(program, "myColor"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(glGetAttribLocation(program, "myColor"));
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bunnyIndexBufferObjID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m->numIndices*sizeof(GLuint), m->indexArray, GL_STATIC_DRAW);
-
 	
 	// End of upload of geometry
 	
@@ -277,7 +219,7 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
-	glutCreateWindow ("GL3 white triangle example");
+	glutCreateWindow ("Labb 1-6");
 	glutDisplayFunc(display); 
 	init ();
 	glutTimerFunc(20, &OnTimer, 0);

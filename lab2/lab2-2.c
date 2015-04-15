@@ -1,4 +1,4 @@
-// Lab 1-1.
+// Lab 2-2.
 // This is the same as the first simple example in the course book,
 // but with a few error checks.
 // Remember to copy your file to a new on appropriate places during the lab so you keep old results.
@@ -102,13 +102,11 @@ void init(void)
 
 	if (m->texCoordArray != NULL)
 	{
-	glBindBuffer(GL_ARRAY_BUFFER, bunnyTexCoordBufferObjID);
-	glBufferData(GL_ARRAY_BUFFER, m->numVertices*2*sizeof(GLfloat), m->texCoordArray, GL_STATIC_DRAW);
-	glVertexAttribPointer(glGetAttribLocation(program, "inTexCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(glGetAttribLocation(program, "inTexCoord"));
+		glBindBuffer(GL_ARRAY_BUFFER, bunnyTexCoordBufferObjID);
+		glBufferData(GL_ARRAY_BUFFER, m->numVertices*2*sizeof(GLfloat), m->texCoordArray, GL_STATIC_DRAW);
+		glVertexAttribPointer(glGetAttribLocation(program, "inTexCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(program, "inTexCoord"));
 	}
-
-
 	
 	// VBO for vertex data
 	glBindBuffer(GL_ARRAY_BUFFER, bunnyVertexBufferObjID);
@@ -156,9 +154,9 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
-	glutCreateWindow ("GL3 white triangle example");
+	glutCreateWindow ("Labb 2-2");
 	glutDisplayFunc(display); 
-	init ();
+	init();
 	glutTimerFunc(20, &OnTimer, 0);
 	glutMainLoop();
 }

@@ -26,6 +26,7 @@ void main(void)
 	const vec3 light = vec3(0.58, 0.58, 0.58);
 	float shade;
 	shade = dot(normalize(in_Normal), light);
+	
 	color = vec4(shade);
 
 	//color = vec4(in_Position+1.0, 1.0);

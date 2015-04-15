@@ -95,8 +95,6 @@ void init(void)
 	glBufferData(GL_ARRAY_BUFFER, 9*sizeof(GLfloat), myColor, GL_STATIC_DRAW);
 	glVertexAttribPointer(glGetAttribLocation(program, "myColor"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(glGetAttribLocation(program, "myColor"));
-	
-
 	// End of upload of geometry
 	
 	printError("init arrays");
@@ -104,11 +102,6 @@ void init(void)
 	//upload matrix
 	glUniformMatrix4fv(glGetUniformLocation(program, "myMatrix"), 1, GL_TRUE, myMatrix);
 
-
-	//GLfloat myFloats[] = {0.1f, 0.8f, 0.1f, 1.0f};
-	//GLint myLoc = glGetUniformLocation(program, "myColor");
-	//glUniformMatrix4fv(program, myLoc, 1, myColor);
-	//glUniformMatrix4f(glGetUniformLocation(program, "col"), 1.0f, .5f, .5f, .3f);
 }
 
 
@@ -132,7 +125,7 @@ int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
-	glutCreateWindow ("GL3 white triangle example");
+	glutCreateWindow ("Labb 1-4");
 	glutDisplayFunc(display); 
 	init ();
 	glutTimerFunc(20, &OnTimer, 0);
