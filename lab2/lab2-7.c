@@ -34,61 +34,6 @@ GLfloat projectionMatrix[] = {    2.0f*near/(right-left), 0.0f, (right+left)/(ri
 
 // Globals
 // Data would normally be read from files
-/*
-GLfloat vertices[] =
-{
-	-0.5f,-0.5f,-0.5f,
-	-0.5f,-0.5f,0.5f,
-	-0.5f,0.5f,-0.5f,
-	-0.5,0.5f,0.5f,
-	0.5f,-0.5f,-0.5f,
-	0.5f,-0.5f,0.5f,
-	0.5f,0.5f,-0.5f,
-	0.5f,0.5f,0.5f
-};
-*/
-
-GLfloat vertices[] =
-{
-	-0.5f,-0.5f,-0.5f, //1
-	-0.5f,0.5f,-0.5f,
-	0.5f,0.5f,-0.5f,
-	-0.5f, -0.5f, -0.5f, //2
-	0.5f, 0.5f, -0.5f,
-	0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //3
-	-0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //4
-	-0.5f, -0.5f, 0.5f,
-	-0.5f, 0.5f, 0.5f,
-	-0.5f, -0.5f, -0.5f, //5
-	0.5f, -0.5f, 0.5f,
-	0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //6
-	0.5f, -0.5f, 0.5f,
-	-0.5f, -0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f, //7
-	0.5f, 0.5f, -0.5f,
-	0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f, //8
-	0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, 0.5f,
-	0.5f, 0.5f, -0.5f, //9
-	0.5f, -0.5f, -0.5f,
-	0.5f, 0.5f, 0.5f,
-	0.5f, -0.5f, -0.5f, //10
-	0.5f, -0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f,
-	0.5f, -0.5f, 0.5f, //11
-	-0.5f, -0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f,
-	-0.5f, -0.5f, 0.5f, //12
-	-0.5f, 0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f
-
-
-};
 
 
 GLfloat myMatrix[] = {1.0f, 0.0f, 0.0f, 0.0f,
@@ -96,51 +41,7 @@ GLfloat myMatrix[] = {1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 0.0f,  1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f};
 
-GLfloat myColor[] = {1.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 1.0f};
 
-
-/*
-unsigned int bunnyVertexArrayObjID;
-unsigned int bunnyVertexBufferObjID;
-unsigned int bunnyIndexBufferObjID;
-unsigned int bunnyNormalBufferObjID;
-unsigned int bunnyTexCoordBufferObjID;
-*/
 Model *m, *m2, *golv;
 
 // Reference to shader program
@@ -262,9 +163,9 @@ void display(void)
 
 	DrawModel(m2, program, "in_Position", "in_Normal", "inTexCoord");
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans0_2.m);
+	//glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans0_2.m);
 
-	DrawModel(golv, program, "in_Position", "in_Normal", "inTexCoord");
+	//DrawModel(golv, program, "in_Position", "in_Normal", "inTexCoord");
 
 
 	printError("display");

@@ -34,147 +34,12 @@ GLfloat projectionMatrix[] = {    2.0f*near/(right-left), 0.0f, (right+left)/(ri
 
 // Globals
 // Data would normally be read from files
-/*
-GLfloat vertices[] =
-{
-	-0.5f,-0.5f,-0.5f,
-	-0.5f,-0.5f,0.5f,
-	-0.5f,0.5f,-0.5f,
-	-0.5,0.5f,0.5f,
-	0.5f,-0.5f,-0.5f,
-	0.5f,-0.5f,0.5f,
-	0.5f,0.5f,-0.5f,
-	0.5f,0.5f,0.5f
-};
-*/
 
-GLfloat vertices[] =
-{
-	-0.5f,-0.5f,-0.5f, //1
-	-0.5f,0.5f,-0.5f,
-	0.5f,0.5f,-0.5f,
-	-0.5f, -0.5f, -0.5f, //2
-	0.5f, 0.5f, -0.5f,
-	0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //3
-	-0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //4
-	-0.5f, -0.5f, 0.5f,
-	-0.5f, 0.5f, 0.5f,
-	-0.5f, -0.5f, -0.5f, //5
-	0.5f, -0.5f, 0.5f,
-	0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //6
-	0.5f, -0.5f, 0.5f,
-	-0.5f, -0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f, //7
-	0.5f, 0.5f, -0.5f,
-	0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f, //8
-	0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, 0.5f,
-	0.5f, 0.5f, -0.5f, //9
-	0.5f, -0.5f, -0.5f,
-	0.5f, 0.5f, 0.5f,
-	0.5f, -0.5f, -0.5f, //10
-	0.5f, -0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f,
-	0.5f, -0.5f, 0.5f, //11
-	-0.5f, -0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f,
-	-0.5f, -0.5f, 0.5f, //12
-	-0.5f, 0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f
-
-
-};
-
-
-/*
-GLfloat vertices[] =
-{
-    -0.5f,-0.5f,-0.5f, // triangle 1 : begin
-    -0.5f,-0.5f, 0.5f,
-    -0.5f, 0.5f, 0.5f, // triangle 1 : end
-    0.5f, 0.5f,-0.5f, // triangle 2 : begin
-    -0.5f,-0.5f,-0.5f,
-    -0.5f, 0.5f,-0.5f, // triangle 2 : end
-    0.5f,-0.5f, 0.5f, //tri 3 begin
-    -0.5f,-0.5f,-0.5f,
-    0.5f,-0.5f,-0.5f //tri 3 end
-    0.5f, 0.5f,-0.5f, //tri 4 begin
-    0.5f,-0.5f,-0.5f,
-    -0.5f,-0.5f,-0.5f, //tri 4 end
-    -0.5f,-0.5f,-0.5f,
-    -0.5f, 0.5f, 0.5f,
-    -0.5f, 0.5f,-0.5f,
-    0.5f,-0.5f, 0.5f,
-    -0.5f,-0.5f, 0.5f,
-    -0.5f,-0.5f,-0.5f,
-    -0.5f, 0.5f, 0.5f,
-    -0.5f,-0.5f, 0.5f,
-    0.5f,-1.0f, 1.0f,
-    0.5f, 0.5f, 0.5f,
-    0.5f,-0.5f,-0.5f,
-    0.5f, 0.5f,-0.5f,
-    0.5f,-0.5f,-0.5f,
-    0.5f, 0.5f, 0.5f,
-    0.5f,-0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f,-0.5f,
-    -0.5f, 0.5f,-0.5f,
-    0.5f, 0.5f, 0.5f,
-    -0.5f, 0.5f,-0.5f,
-    -0.5f, 0.5f, 0.5f,
-    0.5f, 0.5f, 0.5f,
-    -0.5f, 0.5f, 0.5f,
-    0.5f,-0.5f, 0.5f
-
-};
-*/
 
 GLfloat myMatrix[] = {1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f,  1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f};
-
-GLfloat myColor[] = {1.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 0.0f,  1.0f};
 
 
 unsigned int bunnyVertexArrayObjID;
@@ -212,14 +77,14 @@ void OnTimer(int value)
 void init(void)
 {
 
-	mat4 rot, trans, total;
+	mat4 rot, trans, total, mdlMatrix;
 
 
-	//trans = T(-0.0,0,-3);
+	trans = T(-0.0,0,0);
 
-	//rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
+	rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
 
-	//total = Mult(trans, rot);
+	mdlMatrix = Mult(trans, rot);
 
 	total = lookAt(0,0,2,  0,0,0,  0,1,0);
 
@@ -227,8 +92,6 @@ void init(void)
 	m = LoadModel("bunnyplus.obj");
 
 	// vertex buffer object, used for uploading the geometry
-	unsigned int vertexBufferObjID;
-	unsigned int vbo_colors;
 	unsigned int myTex;
 
 
@@ -259,7 +122,6 @@ void init(void)
 	glGenBuffers(1, &bunnyVertexBufferObjID);
 	glGenBuffers(1, &bunnyIndexBufferObjID);
 	glGenBuffers(1, &bunnyNormalBufferObjID);
-	glGenBuffers(1, &vbo_colors);
 
 	glBindTexture(GL_TEXTURE_2D, myTex);
 	glUniform1i(glGetUniformLocation(program, "texUnit"), 0); // Texture unit 0
@@ -288,11 +150,6 @@ void init(void)
 	glVertexAttribPointer(glGetAttribLocation(program, "in_Normal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(glGetAttribLocation(program, "in_Normal"));
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_colors);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(myColor), myColor, GL_STATIC_DRAW);
-        glVertexAttribPointer(glGetAttribLocation(program, "myColor"), 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(glGetAttribLocation(program, "myColor"));
-
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bunnyIndexBufferObjID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m->numIndices*sizeof(GLuint), m->indexArray, GL_STATIC_DRAW);
 
@@ -304,7 +161,8 @@ void init(void)
 	//upload matrices
 	glUniformMatrix4fv(glGetUniformLocation(program, "myMatrix"), 1, GL_TRUE, myMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(program, "projMatrix"), 1, GL_TRUE, projectionMatrix);
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, total.m);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, mdlMatrix.m);
+	glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, GL_TRUE, total.m);
 
 }
 

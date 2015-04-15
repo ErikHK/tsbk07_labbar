@@ -28,5 +28,6 @@ void main(void)
 	//out_Color = texture(texUnit, texCoordV*sin(myMatrix[0][0])); //animated texture!
 	//out_Color = texture(texUnit, texCoordV);
 	//gl_FragColor = Idiff;
-	out_Color = vec4(color)*texture(texUnit, texCoordV);
+	//out_Color = vec4(color)*texture(texUnit, texCoordV);
+	out_Color = vec4(color);
 }

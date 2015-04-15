@@ -34,61 +34,6 @@ GLfloat projectionMatrix[] = {    2.0f*near/(right-left), 0.0f, (right+left)/(ri
 
 // Globals
 // Data would normally be read from files
-/*
-GLfloat vertices[] =
-{
-	-0.5f,-0.5f,-0.5f,
-	-0.5f,-0.5f,0.5f,
-	-0.5f,0.5f,-0.5f,
-	-0.5,0.5f,0.5f,
-	0.5f,-0.5f,-0.5f,
-	0.5f,-0.5f,0.5f,
-	0.5f,0.5f,-0.5f,
-	0.5f,0.5f,0.5f
-};
-*/
-
-GLfloat vertices[] =
-{
-	-0.5f,-0.5f,-0.5f, //1
-	-0.5f,0.5f,-0.5f,
-	0.5f,0.5f,-0.5f,
-	-0.5f, -0.5f, -0.5f, //2
-	0.5f, 0.5f, -0.5f,
-	0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //3
-	-0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //4
-	-0.5f, -0.5f, 0.5f,
-	-0.5f, 0.5f, 0.5f,
-	-0.5f, -0.5f, -0.5f, //5
-	0.5f, -0.5f, 0.5f,
-	0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f, //6
-	0.5f, -0.5f, 0.5f,
-	-0.5f, -0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f, //7
-	0.5f, 0.5f, -0.5f,
-	0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, -0.5f, //8
-	0.5f, 0.5f, 0.5f,
-	-0.5f, 0.5f, 0.5f,
-	0.5f, 0.5f, -0.5f, //9
-	0.5f, -0.5f, -0.5f,
-	0.5f, 0.5f, 0.5f,
-	0.5f, -0.5f, -0.5f, //10
-	0.5f, -0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f,
-	0.5f, -0.5f, 0.5f, //11
-	-0.5f, -0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f,
-	-0.5f, -0.5f, 0.5f, //12
-	-0.5f, 0.5f, 0.5f,
-	0.5f, 0.5f, 0.5f
-
-
-};
 
 
 GLfloat myMatrix[] = {1.0f, 0.0f, 0.0f, 0.0f,
@@ -96,52 +41,7 @@ GLfloat myMatrix[] = {1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 0.0f,  1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f};
 
-GLfloat myColor[] = {1.0f, 0.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 1.0f,
-		0.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 1.0f};
-
-
-/*
-unsigned int bunnyVertexArrayObjID;
-unsigned int bunnyVertexBufferObjID;
-unsigned int bunnyIndexBufferObjID;
-unsigned int bunnyNormalBufferObjID;
-unsigned int bunnyTexCoordBufferObjID;
-*/
-Model *m, *m2, *m3, *m4;
+Model *balcony, *roof, *walls;
 Model * blades[4];
 // Reference to shader program
 GLuint program;
@@ -149,8 +49,8 @@ GLuint program;
 // vertex array object
 unsigned int vertexArrayObjID;
 mat4 rot, rot2, trans1, trans2, trans1_2, trans2_2, trans3, trans3_2, trans4, trans4_2, trans0, trans0_2, look, total;
-mat4 trans_blades[4];
-mat4 trans_blades_2[4];
+mat4 blades_rot[4];
+mat4 blades_anim[4];
 mat4 * curr_trans;
 
 void OnTimer(int value)
@@ -187,7 +87,7 @@ void OnTimer(int value)
 
     for(int i=0;i<4;i++)
     {
-        trans_blades_2[i] = Mult(T(4.7,9,3), Mult(rot2, trans_blades[i]));
+        blades_anim[i] = Mult(T(4.7,9,3), Mult(rot2, blades_rot[i]));
     }
 
 }
@@ -206,10 +106,10 @@ void init(void)
 	trans4 = T(5,6,3);
 	trans0 = T(0,0,0);
 
-	trans_blades[0] = T(0,0,0);
-	trans_blades[1] = Mult(Rx(M_PI/2), T(0,0,0));
-	trans_blades[2] = Mult(Rx(M_PI), T(0,0,0));
-	trans_blades[3] = Mult(Rx(3*M_PI/2), T(0,0,0));
+	blades_rot[0] = T(0,0,0);
+	blades_rot[1] = Mult(Rx(M_PI/2), T(0,0,0));
+	blades_rot[2] = Mult(Rx(M_PI), T(0,0,0));
+	blades_rot[3] = Mult(Rx(3*M_PI/2), T(0,0,0));
 	//rot = Mult(Ry(M_PI/4), Rx(M_PI/8));
 
 	//rot = Ry(M_PI/4);
@@ -218,12 +118,10 @@ void init(void)
 
 	look = lookAt(20,13,20,  0,0,0,  0,1,0);
 
-	m = LoadModelPlus("windmill/windmill-balcony.obj");
-	m2 = LoadModelPlus("windmill/windmill-walls.obj");
-	m3 = LoadModelPlus("windmill/windmill-roof.obj");
-	m4 = LoadModelPlus("windmill/blade.obj");
-
-
+	balcony = LoadModelPlus("windmill/windmill-balcony.obj");
+	walls = LoadModelPlus("windmill/windmill-walls.obj");
+	roof = LoadModelPlus("windmill/windmill-roof.obj");
+	
 	blades[0] = LoadModelPlus("windmill/blade.obj");
 	blades[1] = LoadModelPlus("windmill/blade.obj");
 	blades[2] = LoadModelPlus("windmill/blade.obj");
@@ -282,22 +180,22 @@ void display(void)
 
 	
 
-	DrawModel(m, program, "in_Position", "in_Normal", "inTexCoord");
+	DrawModel(balcony, program, "in_Position", "in_Normal", "inTexCoord");
 	//curr_trans = &trans2;
 
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans2_2.m);
 
-	DrawModel(m2, program, "in_Position", "in_Normal", "inTexCoord");
+	DrawModel(walls, program, "in_Position", "in_Normal", "inTexCoord");
 
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans3_2.m);
 
-	DrawModel(m3, program, "in_Position", "in_Normal", "inTexCoord");
+	DrawModel(roof, program, "in_Position", "in_Normal", "inTexCoord");
 
 	
 
 	for(int i=0;i<4;i++)
 	{
-		glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, trans_blades_2[i].m);
+		glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, blades_anim[i].m);
 
 		DrawModel(blades[i], program, "in_Position", "in_Normal", "inTexCoord");
 	}

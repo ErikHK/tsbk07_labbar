@@ -15,14 +15,8 @@ uniform mat4 mdlMatrix;
 
 void main(void)
 {
-	gl_Position = projMatrix*mdlMatrix*myMatrix*vec4(in_Position, 1.0);
-	//color = vec4(in_Position, 1.0);
-	//color = myColor*vec4(in_Position, 1.0);
-	//color = vec4(1.0, 1.0, 0.0, 1.0);
-	//color = vec4(myColor, 1.0);
+	gl_Position = projMatrix*mdlMatrix*vec4(in_Position, 1.0);
 	color = vec4(in_Position+.5, 1.0);
-	//color = inTexCoord;
-	//color = vec4(inTexCoord, 1.0, 1.0);
 	texCoordV = inTexCoord;
 	out_Position = in_Position;
 }

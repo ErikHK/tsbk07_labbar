@@ -1,11 +1,42 @@
 
-Lab1:
+Lab1-1:
 Where is the origin placed in the on-screen coordinate system?
 -In the middle of the window
 Which direction are the X and Y axes pointing in the on-screen coordinate system?
 -Positive direction is up (y-axis) and to the right (x-axis)
 The triangle color is controlled from the fragment shader. Would it be possible to control it from the main program? How?
--Yes, don't know how!!
+-Yes, upload an array.
+
+Lab1-2:
 What is the purpose of the "in", "out" and "uniform" modifiers?
+-uniform is constant and doesn't change in the vertex or the fragment shader
+-out from vertex is in to fragment shader 
 What is the output of the vertex shader?
+-the new calculated vertesis
 What does the function glUniformMatrix4fv do?
+-uploads a 4x4 matrix to the GPU
+
+Lab1-3:
+What is the frame rate of the animation?
+1/20ms = 50Hz
+
+Lab1-4:
+Did you need to do anything different when uploading the color data?
+-The same as in_Position
+The "in" and "out" modifiers are now used for something different. What?
+-color 'passes through' the vertex shader to the fragment shader 
+What is this kind of shading called? What could we use otherwise?
+-vertex shading
+
+Lab1-5:
+What problems did you encounter while building the cube?
+-Find the right order of the vertices
+How do you change the facing of a polygon?
+-Clockwise
+
+Lab1-6:
+Why do we need normal vectors for a model?
+What did you do in your fragment shader?
+Should a normal vector always be perpendicular to a certain triangle? If not, why?
+Now we are using glBindBuffer and glBufferData again. They deal with buffers, but in what way?
+
