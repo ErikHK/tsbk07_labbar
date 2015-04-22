@@ -13,6 +13,22 @@
 
 mat4 projectionMatrix;
 
+
+Point3D lightSourcesColorsArr[] = { { 1.0f, 0.0f, 1.0f },
+{ 1.0f, 1.0f, 1.0f },
+{ 1.0f, 1.0f, 1.0f },
+{ 1.0f, 1.0f, 1.0f } }; // White light
+
+GLfloat specularExponent[] = { 1.0, 20.0, 60.0, 5.0 };
+GLint isDirectional[] = { 1, 1, 1, 1 };
+
+Point3D lightSourcesDirectionsPositions[] = { { 10.0f, 5.0f, 0.0f }, // Red light, positional
+{ 0.0f, 5.0f, 10.0f }, // Green light, positional
+{ -1.0f, 0.0f, 0.0f }, // Blue light along X
+{ 0.0f, 0.0f, -1.0f } }; // White light along Z
+
+
+
 //theta left right 360, phi up down 180
 float phi=0, theta=0;
 mat4 total, modelView, camMatrix;
