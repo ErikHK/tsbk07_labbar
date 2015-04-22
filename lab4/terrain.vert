@@ -8,6 +8,11 @@ out vec2 texCoord;
 // NY
 uniform mat4 projMatrix;
 uniform mat4 mdlMatrix;
+uniform mat4 camMatrix;
+
+
+mat3 normalMatrix = mat3(camMatrix * mdlMatrix);
+vec3 transformedNormal = normalMatrix * inNormal;
 
 void main(void)
 {

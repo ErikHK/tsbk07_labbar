@@ -90,7 +90,6 @@ void mouse(int x, int y)
 	float phi_m = ((float)x)/600*2*M_PI;
 	float theta_m = ((float)y)/600*M_PI;
 
-
 	lookAtPoint.x = -10*sin(theta_m)*sin(phi_m) + cam.x;
 	lookAtPoint.y = 10*cos(theta_m) + cam.y;
 	lookAtPoint.z = 10*sin(theta_m)*cos(phi_m) + cam.z;
@@ -162,38 +161,39 @@ void timer(int i)
 	vec3 test = VectorSub(cam, lookAtPoint);
 	float looknorm = sqrt(pow(test.x,2) + 
 		pow(test.y,2) + pow(test.z,2));
+	float speed = 0.1;
 	
 
 	if (keyIsDown('w'))
 	{
-		cam.x -= test.x/(looknorm*10);
-		cam.y -= test.y/(looknorm*10);
-		cam.z -= test.z/(looknorm*10);
+		cam.x -= speed*test.x/(looknorm);
+		cam.y -= speed*test.y/(looknorm);
+		cam.z -= speed*test.z/(looknorm);
 		
 	}
 
 	if (keyIsDown('s'))
 	{
-		cam.x += test.x/(looknorm*10);
-		cam.y += test.y/(looknorm*10);
-		cam.z += test.z/(looknorm*10);	
+		cam.x += speed*test.x/(looknorm);
+		cam.y += speed*test.y/(looknorm);
+		cam.z += speed*test.z/(looknorm);	
 	}
 
 	//strafe left
 	if (keyIsDown('a'))
 	{
-		cam.x -= test.z/(looknorm*10);
-		cam.y -= test.y/(looknorm*10);
-		cam.z += test.x/(looknorm*10);
+		cam.x -= speed*test.z/(looknorm);
+		cam.y -= speed*test.y/(looknorm);
+		cam.z += speed*test.x/(looknorm);
 		
 	}
 
 	//strafe right
 	if (keyIsDown('d'))
 	{
-		cam.x += test.z/(looknorm*10);
-		cam.y -= test.y/(looknorm*10);
-		cam.z -= test.x/(looknorm*10);
+		cam.x += speed*test.z/(looknorm);
+		cam.y -= speed*test.y/(looknorm);
+		cam.z -= speed*test.x/(looknorm);
 		
 	}
 
