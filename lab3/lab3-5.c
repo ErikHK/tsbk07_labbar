@@ -164,7 +164,7 @@ void init(void)
 	printError("GL inits");
 
 	// Load and compile shader
-	program = loadShaders("lab3-4.vert", "lab3-4.frag");
+	program = loadShaders("lab3-5.vert", "lab3-5.frag");
 	printError("init shader");
 
 	//upload matrices
@@ -175,7 +175,7 @@ void init(void)
 
 	glBindTexture(GL_TEXTURE_2D, groundTex);
 	glUniform1i(glGetUniformLocation(program, "texUnit"), 0); // Texture unit 0
-
+	glUniform1i(glGetUniformLocation(program, "texUnit2"), 1); // Texture unit 1
 }
 
 
@@ -210,6 +210,20 @@ void display(void)
 
 	glEnable(GL_DEPTH_TEST);
 	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
+
+	//draw multi-tex
+	glUniform1i(glGetUniformLocation(program, "multitex"), 1);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, cow_trans.m);
+	glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, skyboxTex);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, groundTex);
+	DrawModel(cow, program, "in_Position", "in_Normal", "inTexCoord");
+
+
+    glUniform1i(glGetUniformLocation(program, "multitex"), 0);
+
+
 	glBindTexture(GL_TEXTURE_2D, groundTex);
 	glUniformMatrix4fv(glGetUniformLocation(program, "myMatrix"), 1, GL_TRUE, myMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, balcony_trans.m);
@@ -225,8 +239,8 @@ void display(void)
 	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, ground_trans.m);
 	DrawModel(ground, program, "in_Position", "in_Normal", "inTexCoord");
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, cow_trans.m);
-	DrawModel(cow, program, "in_Position", "in_Normal", "inTexCoord");
+	//glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, cow_trans.m);
+	//DrawModel(cow, program, "in_Position", "in_Normal", "inTexCoord");
 	
 
 	for(int i=0;i<4;i++)
