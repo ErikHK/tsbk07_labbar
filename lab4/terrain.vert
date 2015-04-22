@@ -23,7 +23,7 @@ vec3 transformedNormal = normalMatrix * inNormal;
 void main(void)
 {
 
-	NormalTex = inNormal;
+	//NormalTex = inNormal;
 
 	exNormal = transformedNormal;
 

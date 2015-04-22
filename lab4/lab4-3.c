@@ -15,23 +15,56 @@ mat4 projectionMatrix;
 
 
 Point3D lightSourcesColorsArr[] = { { 1.0f, 0.0f, 1.0f },
-{ 1.0f, 1.0f, 1.0f },
-{ 1.0f, 1.0f, 1.0f },
-{ 1.0f, 1.0f, 1.0f } }; // White light
+{ 0.0f, 0.0f, 1.0f },
+{ 1.0f, 0.0f, 0.0f },
+{ 1.0f, 1.0f, 1.0f } };
 
 GLfloat specularExponent[] = { 1.0, 20.0, 60.0, 5.0 };
-GLint isDirectional[] = { 1, 1, 1, 1 };
+GLint isDirectional[] = { 0, 0, 1, 1 };
 
-Point3D lightSourcesDirectionsPositions[] = { { 10.0f, 5.0f, 0.0f }, // Red light, positional
-{ 0.0f, 5.0f, 10.0f }, // Green light, positional
-{ -1.0f, 0.0f, 0.0f }, // Blue light along X
-{ 0.0f, 0.0f, -1.0f } }; // White light along Z
+Point3D lightSourcesDirectionsPositions[] = { { 0.0f, 5.0f, 0.0f }, // Red light, positional
+{ 0.0f, 50.0f, 10.0f }, // Green light, positional
+{ -1.0f, 2.0f, 0.0f }, // Blue light along X
+{ 0.0f, 1.0f, -1.0f } }; // White light along Z
 
 
 
 //theta left right 360, phi up down 180
 float phi=0, theta=0;
 mat4 total, modelView, camMatrix;
+
+void calc_normal(GLfloat *vertexArray, int x, int z, int width, Point3D *normal)
+{
+	Point3D vec1, vec2;
+
+	if(x > 0 && z > 0 && x < width && z < width)
+	{
+		vec1.x = vertexArray[(x-1 + z * width)*3 + 0] - 
+		vertexArray[(x + z * width)*3 + 0];
+
+		vec1.y = vertexArray[(x-1 + z * width)*3 + 1] - 
+		vertexArray[(x + z * width)*3 + 1];
+
+		vec1.z = vertexArray[(x-1 + z * width)*3 + 2] - 
+		vertexArray[(x + z * width)*3 + 2];
+
+
+		vec2.x = vertexArray[(x + (z+1) * width)*3 + 0] - 
+		vertexArray[(x + z * width)*3 + 0];
+
+		vec2.y = vertexArray[(x + (z+1) * width)*3 + 1] - 
+		vertexArray[(x + z * width)*3 + 1];
+
+		vec2.z = vertexArray[(x + (z+1) * width)*3 + 2] - 
+		vertexArray[(x + z * width)*3 + 2];
+
+		
+		*normal = Normalize(CrossProduct(vec1, vec2));
+
+	}
+}
+
+
 
 Model* GenerateTerrain(TextureData *tex)
 {
@@ -43,6 +76,7 @@ Model* GenerateTerrain(TextureData *tex)
 	GLfloat *normalArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
 	GLfloat *texCoordArray = malloc(sizeof(GLfloat) * 2 * vertexCount);
 	GLuint *indexArray = malloc(sizeof(GLuint) * triangleCount*3);
+	Point3D tmp_normal;
 	
 	printf("bpp %d\n", tex->bpp);
 	for (x = 0; x < tex->width; x++)
@@ -53,9 +87,14 @@ Model* GenerateTerrain(TextureData *tex)
 			vertexArray[(x + z * tex->width)*3 + 1] = tex->imageData[(x + z * tex->width) * (tex->bpp/8)] / 100.0;
 			vertexArray[(x + z * tex->width)*3 + 2] = z / 4.0;
 		// Normal vectors. You need to calculate these.
-			normalArray[(x + z * tex->width)*3 + 0] = 0.0;
-			normalArray[(x + z * tex->width)*3 + 1] = 1.0;
-			normalArray[(x + z * tex->width)*3 + 2] = 0.0;
+
+			calc_normal(vertexArray, x, z, tex->width, &tmp_normal);
+			printf("%f %f %f\n", tmp_normal.x, tmp_normal.y, tmp_normal.z);
+
+
+			normalArray[(x + z * tex->width)*3 + 0] = tmp_normal.x;
+			normalArray[(x + z * tex->width)*3 + 1] = tmp_normal.y;
+			normalArray[(x + z * tex->width)*3 + 2] = tmp_normal.z;
 		// Texture coordinates. You may want to scale them.
 			texCoordArray[(x + z * tex->width)*2 + 0] = x; // (float)x / tex->width;
 			texCoordArray[(x + z * tex->width)*2 + 1] = z; // (float)z / tex->height;
@@ -142,6 +181,11 @@ void display(void)
 {
 	// clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
+	glUniform3fv(glGetUniformLocation(program, "lightSourcesDirPosArr"), 4, &lightSourcesDirectionsPositions[0].x);
+	glUniform3fv(glGetUniformLocation(program, "lightSourcesColorArr"), 4, &lightSourcesColorsArr[0].x);
+	glUniform1fv(glGetUniformLocation(program, "specularExponent"), 4, specularExponent);
+	glUniform1iv(glGetUniformLocation(program, "isDirectional"), 4, isDirectional);
 	
 	
 	printError("pre display");
@@ -157,7 +201,7 @@ void display(void)
 				lookAtPoint.x, lookAtPoint.y, lookAtPoint.z,
 				0.0, 1.0, 0.0);
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "camMatrix"), 1, GL_TRUE, look.m);
+	glUniformMatrix4fv(glGetUniformLocation(program, "camMatrix"), 1, GL_TRUE, camMatrix.m);
 
 	modelView = IdentityMatrix();
 	total = Mult(camMatrix, modelView);

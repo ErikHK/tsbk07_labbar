@@ -45,8 +45,8 @@ mat3 lightCamMatrix = mat3(camMatrix);
 
 void main(void)
 {
-	colors = vec3(0,0,0);
-	colors += vec3(0.5, 0.5, 0.5);
+	//colors = vec3(0,0,0);
+	colors = vec3(0.5, 0.5, 0.5);
 
 
 	if(multitex)
@@ -93,12 +93,10 @@ void main(void)
 
         	}
 		}
+
+		outColor = vec4(colors, 1.0)*texture(tex, texCoord);
 	}
 
 
-
-
-
 	//outColor = texture(tex, texCoord);
-	outColor = vec4(colors, 1.0)*texture(tex, texCoord);
 }
