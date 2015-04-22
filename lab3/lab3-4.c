@@ -42,9 +42,9 @@ GLfloat myMatrix[] = {1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f};
 
 
-Point3D lightSourcesColorsArr[] = { { 1.0f, 0.0f, 0.0f }, // Red light
-{ 0.0f, 1.0f, 0.0f }, // Green light
-{ 0.0f, 0.0f, 1.0f }, // Blue light
+Point3D lightSourcesColorsArr[] = { { 1.0f, 1.0f, 1.0f }, // Red light
+{ 1.0f, 1.0f, 1.0f }, // Green light
+{ 1.0f, 1.0f, 1.0f }, // Blue light
 { 1.0f, 1.0f, 1.0f } }; // White light
 
 GLfloat specularExponent[] = { 10.0, 20.0, 60.0, 5.0 };
