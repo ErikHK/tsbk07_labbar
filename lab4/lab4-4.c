@@ -11,7 +11,15 @@
 #include "loadobj.h"
 #include "LoadTGA.h"
 
+#define SCALE 1.0
+
 mat4 projectionMatrix;
+
+Point3D sphere_pos;
+
+GLfloat *vertexArray;
+int texwidth;
+//GLfloat trans[16];
 
 
 Point3D lightSourcesColorsArr[] = { { 1.0f, 0.0f, 1.0f },
@@ -28,16 +36,67 @@ Point3D lightSourcesDirectionsPositions[] = { { 0.0f, 5.0f, 0.0f }, // Red light
 { 0.0f, 1.0f, -1.0f } }; // White light along Z
 
 
-
 //theta left right 360, phi up down 180
 float phi=0, theta=0;
 mat4 total, modelView, camMatrix;
+mat4 trans;
 
-
-float calculate_height(GLfloat *vertexArray, int x, int z, int width)
+float calc_height(GLfloat *vertexArray, float x, float z, int width)
 {
-	int which_quad = (floor(x) + floor(z)*width)*3;
-	
+	int quad = (floor(x)/SCALE + floor(z)*width/SCALE)*3;
+	int choose_upper = 0;
+
+	Point3D corners[3];
+
+	if( (x-floor(x)) + (z-floor(z)) > 1)
+		choose_upper = 1;
+
+
+	if(choose_upper)
+	{
+		corners[0].x = vertexArray[quad + (1 + 1*width)*3 + 0];
+		corners[0].y = vertexArray[quad + (1 + 1*width)*3 + 1];
+		corners[0].z = vertexArray[quad + (1 + 1*width)*3 + 2];
+
+		corners[1].x = vertexArray[quad + (0 + 1*width)*3 + 0];
+		corners[1].y = vertexArray[quad + (0 + 1*width)*3 + 1];
+		corners[1].z = vertexArray[quad + (0 + 1*width)*3 + 2];
+
+		corners[2].x = vertexArray[quad + (1 + 0*width)*3 + 0];
+		corners[2].y = vertexArray[quad + (1 + 0*width)*3 + 1];
+		corners[2].z = vertexArray[quad + (1 + 0*width)*3 + 2];
+
+	}else{
+
+		corners[0].x = vertexArray[quad + (0 + 0*width)*3 + 0];
+		corners[0].y = vertexArray[quad + (0 + 0*width)*3 + 1];
+		corners[0].z = vertexArray[quad + (0 + 0*width)*3 + 2];
+
+		corners[1].x = vertexArray[quad + (1 + 0*width)*3 + 0];
+		corners[1].y = vertexArray[quad + (1 + 0*width)*3 + 1];
+		corners[1].z = vertexArray[quad + (1 + 0*width)*3 + 2];
+
+		corners[2].x = vertexArray[quad + (0 + 1*width)*3 + 0];
+		corners[2].y = vertexArray[quad + (0 + 1*width)*3 + 1];
+		corners[2].z = vertexArray[quad + (0 + 1*width)*3 + 2];
+	}
+
+	Point3D vec1, vec2, normal;
+	//Plane equation is given as Ax + By + Cz + D = 0
+	float A,B,C,D;
+	vec1 = VectorSub(corners[1], corners[0]);
+	vec2 = VectorSub(corners[2], corners[0]);
+	normal = Normalize(CrossProduct(vec2, vec1));
+	A = normal.x;
+	B = normal.y;
+	C = normal.z;
+	D = -(A*corners[0].x + B*corners[0].y + C*corners[0].z);
+
+	float y = (-D-C*z-A*x)/B;
+	printf("%f %f %f %f\n", A,B,C, D);
+	printf("%f %f\n", x, z);
+	printf("%f\n", y);
+	return y;
 
 }
 
@@ -77,28 +136,30 @@ void calc_normal(GLfloat *vertexArray, int x, int z, int width, Point3D *normal)
 
 Model* GenerateTerrain(TextureData *tex)
 {
+	texwidth = tex->width;
 	int vertexCount = tex->width * tex->height;
 	int triangleCount = (tex->width-1) * (tex->height-1) * 2;
 	int x, z;
 	
-	GLfloat *vertexArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
+	vertexArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
 	GLfloat *normalArray = malloc(sizeof(GLfloat) * 3 * vertexCount);
 	GLfloat *texCoordArray = malloc(sizeof(GLfloat) * 2 * vertexCount);
 	GLuint *indexArray = malloc(sizeof(GLuint) * triangleCount*3);
 	Point3D tmp_normal;
-	
+
+
 	printf("bpp %d\n", tex->bpp);
 	for (x = 0; x < tex->width; x++)
 		for (z = 0; z < tex->height; z++)
 		{
 		// Vertex array. You need to scale this properly
-			vertexArray[(x + z * tex->width)*3 + 0] = x / 4.0;
+			vertexArray[(x + z * tex->width)*3 + 0] = x / SCALE;
 			vertexArray[(x + z * tex->width)*3 + 1] = tex->imageData[(x + z * tex->width) * (tex->bpp/8)] / 100.0;
-			vertexArray[(x + z * tex->width)*3 + 2] = z / 4.0;
+			vertexArray[(x + z * tex->width)*3 + 2] = z / SCALE;
 		// Normal vectors. You need to calculate these.
 
 			calc_normal(vertexArray, x, z, tex->width, &tmp_normal);
-			printf("%f %f %f\n", tmp_normal.x, tmp_normal.y, tmp_normal.z);
+			//printf("%f %f %f\n", tmp_normal.x, tmp_normal.y, tmp_normal.z);
 
 
 			normalArray[(x + z * tex->width)*3 + 0] = tmp_normal.x;
@@ -122,6 +183,9 @@ Model* GenerateTerrain(TextureData *tex)
 		}
 	
 	// End of terrain generation
+	//float test = calc_height(vertexArray, sphere_pos.x, sphere_pos.z, tex->width);
+	//sphere_pos.y = test;
+
 	
 	// Create Model and upload to GPU:
 
@@ -140,6 +204,7 @@ Model* GenerateTerrain(TextureData *tex)
 
 // vertex array object
 Model *m, *m2, *tm;
+Model *sphere;
 // Reference to shader program
 GLuint program;
 GLuint tex1, tex2;
@@ -168,6 +233,11 @@ void init(void)
 	glDisable(GL_CULL_FACE);
 	printError("GL inits");
 
+	sphere_pos.x = 1;
+	sphere_pos.y = 0;
+	sphere_pos.z = 1;
+
+	
 	projectionMatrix = frustum(-0.1, 0.1, -0.1, 0.1, 0.2, 75.0);
 
 	// Load and compile shader
@@ -181,9 +251,11 @@ void init(void)
 	
 // Load terrain data
 	
-	LoadTGATextureData("fft-terrain.tga", &ttex);
+	LoadTGATextureData("44-terrain.tga", &ttex);
 	tm = GenerateTerrain(&ttex);
 	printError("init terrain");
+
+	sphere = LoadModelPlus("groundsphere.obj");
 }
 
 void display(void)
@@ -219,6 +291,12 @@ void display(void)
 	glBindTexture(GL_TEXTURE_2D, tex1);		// Bind Our Texture tex1
 	DrawModel(tm, program, "inPosition", "inNormal", "inTexCoord");
 
+
+	trans = T(sphere_pos.x, sphere_pos.y, sphere_pos.z);
+	total = Mult(camMatrix, trans);
+	glUniformMatrix4fv(glGetUniformLocation(program, "mdlMatrix"), 1, GL_TRUE, total.m);
+	DrawModel(sphere, program, "inPosition", "inNormal", "inTexCoord");
+
 	printError("display 2");
 	
 	glutSwapBuffers();
@@ -227,13 +305,15 @@ void display(void)
 void timer(int i)
 {
 
+	sphere_pos.x += .005;
+	sphere_pos.y = calc_height(vertexArray, sphere_pos.x, sphere_pos.z, texwidth);
+	
 
 	vec3 test = VectorSub(cam, lookAtPoint);
 	float looknorm = sqrt(pow(test.x,2) + 
 		pow(test.y,2) + pow(test.z,2));
 	float speed = 0.1;
 	
-
 	if (keyIsDown('w'))
 	{
 		cam.x -= speed*test.x/(looknorm);
@@ -277,6 +357,9 @@ void timer(int i)
 
 int main(int argc, char **argv)
 {
+
+
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitContextVersion(3, 2);
